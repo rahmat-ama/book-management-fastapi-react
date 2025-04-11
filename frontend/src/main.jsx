@@ -9,6 +9,10 @@ import DeleteBook from './components/DeleteBook.jsx';
 
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <App />,
+  },
+  {
     path: '/books',
     element: <App />,
   },
