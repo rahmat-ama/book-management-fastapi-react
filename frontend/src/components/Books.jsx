@@ -1,26 +1,16 @@
 import React, {useEffect, useState} from "react";
 import api from "../api";
-import AddBookForm from "./AddBookForm";
+import { Link } from "react-router-dom";
 
 const BookList = () => {
     const [books, setBooks] = useState([]);
     const fetchBooks = async () => {
         try {
             const response = await api.get('/books');
-            console.log(response)
             setBooks(response.data);
         }
         catch (error) {
             console.error("Error fetching books", error);
-        }
-    };
-    const addBook = async (bookData) => {
-        try {
-            await api.post('/books', bookData);
-            fetchBooks();
-        }
-        catch (error) {
-            console.error('Error adding book', error)
         }
     };
     useEffect(() => {
@@ -31,7 +21,7 @@ const BookList = () => {
         <div>
             <h2>Books List</h2>
             <div className="Book_table">
-                <table border={2}>
+                <table>
                     <thead>
                         <tr>
                             <th>No</th>
@@ -44,19 +34,21 @@ const BookList = () => {
                     </thead>
                     <tbody>
                         {books.map((book) => (
-                            <tr>
+                            <tr key={book.id}>
                                 <td>{book.id}</td>
                                 <td>{book.title}</td>
                                 <td>{book.author}</td>
                                 <td>{book.year}</td>
                                 <td>{book.category}</td>
-                                <td>Edit | Delete</td>
+                                <td><Link to={`/books/update/${book.id}`}> Edit </Link>
+                                     | 
+                                    <Link to={`/books/${book.id}/delete`}> Delete </Link>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-            <AddBookForm addBook={addBook}/>
         </div>
     );
 };

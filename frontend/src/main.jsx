@@ -5,10 +5,11 @@ import './index.css';
 import App from './pages/App.jsx';
 import CreateBook from './pages/CreateBook.jsx';
 import UpdateBook from './pages/UpdateBook.jsx';
+import DeleteBook from './components/DeleteBook.jsx';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/books',
     element: <App />,
   },
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
     path: '/books/update/:bookId',
     element: <UpdateBook />
   },
+  {
+    path: '/books/:id/delete',
+    element: <DeleteBook />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

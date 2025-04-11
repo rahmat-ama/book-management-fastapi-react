@@ -1,6 +1,11 @@
 import React, {useState} from "react";
+import api from "../api";
+import { useNavigate } from "react-router-dom";
+import '../App.css';
 
-const AddBookForm = ({ addBook }) => {
+const AddBookForm = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         title: '',
         author: '',
@@ -13,46 +18,56 @@ const AddBookForm = ({ addBook }) => {
         setFormData(prevData => ({...prevData, [name]: value}));
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        if (formData.title && formData.author && formData.category && formData.year) {
-            addBook(formData);
-            setFormData({ title:'', author:'', year:'', category:''});
+        try {
+            await api.post('/books/create', formData);
+            navigate("/books");
+        }
+        catch (error) {
+            console.error("Error menambahkan data buku", error);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text"
-                   name="title"
-                   value={formData.title}
-                   onChange={handleChange}
-                   placeholder="Enter book title"
-                   required />
-                   <br />
-            <input type="text"
-                   name="author"
-                   value={formData.author}
-                   onChange={handleChange}
-                   placeholder="Enter book author"
-                   required />
-                   <br />
-            <input type="number"
-                   name="year"
-                   value={formData.year}
-                   onChange={handleChange}
-                   placeholder="Enter book year"
-                   required />
-                   <br />
-            <input type="text"
-                   name="category"
-                   value={formData.category}
-                   onChange={handleChange}
-                   placeholder="Enter book category"
-                   required />
-                   <br />
-            <button type="submit">Add Book</button>
-        </form>
+        <div>
+            <form onSubmit={handleSubmit} className="addform">
+                <label htmlFor="title"> Title </label><br />
+                <input type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    placeholder="Enter book title"
+                    required
+                    autoFocus />
+                    <br />
+                <label htmlFor="author"> Author </label><br />
+                <input type="text"
+                    name="author"
+                    value={formData.author}
+                    onChange={handleChange}
+                    placeholder="Enter book author"
+                    required />
+                    <br />
+                <label htmlFor="year"> Year </label><br />
+                <input type="number"
+                    name="year"
+                    value={formData.year}
+                    onChange={handleChange}
+                    placeholder="Enter book year"
+                    required />
+                    <br />
+                <label htmlFor="category"> Category </label><br />
+                <input type="text"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    placeholder="Enter book category"
+                    required />
+                    <br />
+                <button type="submit">Add Book</button><br />
+            </form>
+        </div>
     )
 };
 

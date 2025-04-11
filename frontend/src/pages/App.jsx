@@ -1,5 +1,5 @@
 import React from "react";
-import './App.css';
+import '../App.css'
 import BookList from '../components/Books';
 import { Link } from "react-router-dom";
 
@@ -11,9 +11,11 @@ const App = () => {
       </header>
       <main>
         <BookList />
-        <Link to={"/books/create"}>
-          Add Book Data
-        </Link>
+        <div className="addButton">
+          <Link to={"/books/create"}>
+            Add Book Data
+          </Link>
+        </div>
       </main>
     </div>
   );

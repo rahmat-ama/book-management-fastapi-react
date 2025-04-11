@@ -1,7 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 from typing import List
 from sqlmodel import Session, select
 from models import Book
@@ -30,18 +29,22 @@ def read_books(session: Session = Depends(get_session)) :
     books = session.exec(select(Book)).all()
     return books
 
-# @app.get('/books/create')
-# def add_book(sessio: Session = Depends(get_session))
-
-
-@app.post('/books', response_model=Book)
+@app.post('/books/create', response_model=Book)
 def save_book(book: Book, session : Session = Depends(get_session)) :
     session.add(book)
     session.commit()
     session.refresh(book)
     return book
 
-@app.put('/books/{book_id}', response_model=Book)
+@app.get('/books/update/{book_id}', response_model=Book)
+def update_book_data(book_id: int, session: Session = Depends(get_session)) :
+    book_data = session.get(Book, book_id)
+    if not book_data :
+        raise HTTPException(status_code=404, detail="Data Buku tidak ditemukan")
+    
+    return book_data
+
+@app.put('/books/update/{book_id}', response_model=Book)
 def update_book(book_id: int, book_update: Book, session: Session = Depends(get_session)) :
     book_data = session.get(Book, book_id)
     if not book_data :
@@ -60,7 +63,7 @@ def update_book(book_id: int, book_update: Book, session: Session = Depends(get_
 
     return book_data
 
-@app.delete('/books/{book_id}', response_model=dict)
+@app.delete('/books/{book_id}/delete', response_model=dict)
 def delete_book(book_id: int, session: Session = Depends(get_session)) :
     book_data = session.get(Book, book_id)
     if not book_data :
