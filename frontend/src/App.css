@@ -49,6 +49,7 @@
 
 .Book_table > table > tbody > tr > td {
   padding: 0.5em;
+  color: aliceblue;
 }
 
 .Book_table > table > tbody > tr > td > a {
@@ -77,13 +78,16 @@
   flex-direction: column;
   align-items: start;
   margin: 0;
-  padding: 0;
+  padding: 1em 3em;
+  background-color: #7fe8ff;
+  border-radius: 0.5em;
 }
 
 .addform > input, .addform > button{
   width: 100%;
   padding: 0.7em;
   align-self: center;
+  border-radius: 0.5em;
 }
 @keyframes logo-spin {
   from {
