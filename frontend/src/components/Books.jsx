@@ -40,8 +40,8 @@ const BookList = () => {
                                 <td>{book.author}</td>
                                 <td>{book.year}</td>
                                 <td>{book.category}</td>
-                                <td><Link to={`/books/update/${book.id}`}> Edit </Link>
-                                     | 
+                                <td className="action">
+                                    <Link to={`/books/update/${book.id}`}> Edit </Link> 
                                     <Link to={`/books/${book.id}/delete`}> Delete </Link>
                                 </td>
                             </tr>

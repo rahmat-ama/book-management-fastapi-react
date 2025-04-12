@@ -36,6 +36,7 @@
   display: flex;
   justify-content: center;
   margin: 0;
+  max-width: 50em;
 }
 
 .Book_table > table > thead {
@@ -57,13 +58,17 @@
   color: white;
   background-color: rgb(0, 136, 247);
   padding: 0.3em;
-  margin: 1em;
+  margin: 0.5em;
   border-radius: 0.3em;
   transition: 300ms ease-in-out;
 }
 
 .Book_table > table > tbody > tr > td > a:hover {
   background-color: #0008f0;
+}
+
+.action {
+  display: flex;
 }
 
 .logo:hover {
