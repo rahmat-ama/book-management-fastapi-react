@@ -9,7 +9,7 @@ const DeleteBook = () => {
     useEffect(() => {
         const deleteBook = async () => {
             try {
-                await api.delete(`/books/${id}/delete`);
+                await api.delete(`/books/${id}`);
                 navigate("/books");
             }
             catch (error) {

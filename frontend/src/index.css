@@ -1,68 +1,48 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(39, 39, 39, 0.87);
-  background-color: #e6e6e6;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 10vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Custom base layer overrides */
+@layer base {
+  html {
+    font-family: theme('fontFamily.sans');
+    scroll-behavior: smooth;
   }
-  a:hover {
-    color: #747bff;
+  body {
+    @apply bg-gray-50 text-gray-800 min-h-screen antialiased;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+/* Reusable component classes */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors;
   }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm;
+  }
+  .card {
+    @apply rounded-xl bg-white shadow-md ring-1 ring-gray-200 p-6;
+  }
+  .input-field {
+    @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500;
+  }
+  .table-base {
+    @apply min-w-full divide-y divide-gray-200;
+  }
+  .table-head-row {
+    @apply bg-brand-600 text-left text-xs font-semibold uppercase tracking-wide text-white;
+  }
+  .table-head-row th { @apply px-4 py-3; }
+  .table-body-row { @apply even:bg-gray-50 hover:bg-brand-50 transition-colors; }
+  .table-body-row td { @apply px-4 py-2 text-sm text-gray-700; }
+  .badge {
+    @apply inline-block rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700;
+  }
+}
+
+/* Utilities extension */
+@layer utilities {
+  .scrollbar-hide { scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
 }

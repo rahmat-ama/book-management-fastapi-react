@@ -12,20 +12,23 @@ const UpdateBookForm = () => {
         category: ''
     });
 
-    const fetchBook = async () => {
-        try {
-            const response = await api.get(`/books/update/${bookId}`);
-            setFormData({
-                title: response.data.title,
-                author: response.data.author,
-                year: response.data.year,
-                category: response.data.category
-            });
-        }
-        catch (error) {
-            console.error('Data buku tidak ditemukan', error);
-        }
-    };
+    useEffect(() => {
+        const fetchBook = async () => {
+            try {
+                const response = await api.get(`/books/${bookId}`);
+                setFormData({
+                    title: response.data.title,
+                    author: response.data.author,
+                    year: response.data.year,
+                    category: response.data.category
+                });
+            }
+            catch (error) {
+                console.error('Data buku tidak ditemukan', error);
+            }
+        };
+        fetchBook();
+    }, [bookId]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -35,53 +38,45 @@ const UpdateBookForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await api.put(`/books/update/${bookId}`, formData);
+            await api.put(`/books/${bookId}`, {
+                ...formData,
+                year: Number(formData.year),
+            });
             navigate("/books");
         }
         catch (error) {
-            console.error("Error menambahkan data buku", error);
+            console.error("Error menyimpan perubahan buku", error);
         }
     };
-    useEffect(() => {
-        fetchBook();
-    }, [bookId]);
 
     return (
-        <form onSubmit={handleSubmit} className="addform">
-            <label htmlFor="title">Title</label><br />
-            <input type="text"
-                   name="title"
-                   value={formData.title}
-                   onChange={handleChange}
-                   placeholder="Enter book title"
-                   required />
-                   <br />
-            <label htmlFor="author">Author</label><br />
-            <input type="text"
-                   name="author"
-                   value={formData.author}
-                   onChange={handleChange}
-                   placeholder="Enter book author"
-                   required />
-                   <br />
-            <label htmlFor="year">Year</label><br />
-            <input type="number"
-                   name="year"
-                   value={formData.year}
-                   onChange={handleChange}
-                   placeholder="Enter book year"
-                   required />
-                   <br />
-            <label htmlFor="category">Category</label><br />
-            <input type="text"
-                   name="category"
-                   value={formData.category}
-                   onChange={handleChange}
-                   placeholder="Enter book category"
-                   required />
-                   <br />
-            <button type="submit">Save Update</button>
-        </form>
+        <div className="card max-w-xl mx-auto">
+            <h3 className="text-lg font-semibold mb-4">Ubah Data Buku</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">Judul</label>
+                    <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Masukkan judul" required className="input-field mt-1" />
+                </div>
+                <div>
+                    <label htmlFor="author" className="block text-sm font-medium text-gray-700">Penulis</label>
+                    <input type="text" name="author" value={formData.author} onChange={handleChange} placeholder="Masukkan penulis" required className="input-field mt-1" />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label htmlFor="year" className="block text-sm font-medium text-gray-700">Tahun</label>
+                        <input type="number" name="year" value={formData.year} onChange={handleChange} placeholder="2024" required className="input-field mt-1" />
+                    </div>
+                    <div>
+                        <label htmlFor="category" className="block text-sm font-medium text-gray-700">Kategori</label>
+                        <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Kategori" required className="input-field mt-1" />
+                    </div>
+                </div>
+                <div className="pt-2 flex items-center gap-3">
+                    <button type="submit" className="btn-primary">Simpan Perubahan</button>
+                    <button type="button" onClick={() => navigate(-1)} className="btn-secondary">Batal</button>
+                </div>
+            </form>
+        </div>
     )
 }
 
